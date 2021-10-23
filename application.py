@@ -1,31 +1,34 @@
 import dash
-import dash_core_components as dcc
-import dash_html_components as html
-
+from dash import dcc
+from dash import html
+import plotly.graph_objs as go
+import numpy as np
 
 app = dash.Dash()
+np.random.seed(42)
+random_x = np.random.randint(1, 101, 100)
+random_y = np.random.randint(1, 101, 100)
 
-colors = {'background': '#111111', 'text': '#7FDBFF'}
-
-app.layout = html.Div(children=[
-
-    html.H1("Hello Dash", style={'textAlign': 'center',
-                                 'color': colors['text']}),
-    dcc.Graph(id='example',
+app.layout = html.Div([
+    dcc.Graph(id='scatterplot',
               figure={'data':[
-                {'x':[1,2,3],'y':[4,2,1],'type':'bar','name':'SF'},
-                {'x':[1,2,3],'y':[2,4,5],'type':'bar','name':'NYC'},
-              ],
-                        'layout':{
-                            'plot_bgcolor': colors['background'],
-                            'paper_bgcolor': colors['background'],
-                            'font':{'color':colors['text']},
-
-                            'title': 'BAR PLOTS!'
-                        }})
-], style={'backgroundColor': colors['background']}
-)
-
+                  go.Scatter(
+                      x=random_x,
+                      y=random_y,
+                      mode='markers'
+                  )],
+              'layout':go.Layout(title='My Scatterplot')}
+              ),
+    dcc.Graph(id='scatterplot2',
+              figure={'data': [
+                  go.Scatter(
+                      x=random_x,
+                      y=random_y,
+                      mode='markers'
+                  )],
+                  'layout': go.Layout(title='My Scatterplot2    ')}
+              )
+])
 
 if __name__ =='__main__':
     app.run_server()
